@@ -64,6 +64,7 @@ class NowPlayingView(APIView):
         track_info = {
             'name': track['item']['name'],
             'artist': track['item']['artists'][0]['name'],
-            'album_art': track['item']['album']['images'][0]['url']
+            'album_art': track['item']['album']['images'][0]['url'],
+            'is_playing': track['is_playing']
         }
         return Response(track_info)

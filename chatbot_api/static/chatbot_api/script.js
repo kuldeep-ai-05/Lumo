@@ -99,11 +99,16 @@ async function updateNowPlaying() {
     }
     const data = await response.json();
 
-    spotifyAlbumArt.innerHTML = `<img src="${data.album_art}" alt="Album art">`;
-    spotifyTrackInfo.innerHTML = `
-        <p><strong>${data.name}</strong></p>
-        <p>${data.artist}</p>
-    `;
+    if (data.is_playing) {
+        spotifyAlbumArt.innerHTML = `<img src="${data.album_art}" alt="Album art">`;
+        spotifyTrackInfo.innerHTML = `
+            <p><strong>${data.name}</strong></p>
+            <p>${data.artist}</p>
+        `;
+    } else {
+        spotifyTrackInfo.innerHTML = `<p>Nothing playing on Spotify.</p>`;
+        spotifyAlbumArt.innerHTML = '';
+    }
 }
 
 function getCookie(name) {
