@@ -19,8 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('weather_api.urls')),
+    path('api/weather/', include('weather_api.urls')), # Changed
     path('', include('chatbot_api.urls')),
-    path('api/', include('spotify_api.urls')),
-    path('api/', include('google_calendar_api.urls')),
+    path('api/spotify/', include('spotify_api.urls')), # Changed
+    path('api/google_calendar/', include('google_calendar_api.urls')), # Changed
 ]

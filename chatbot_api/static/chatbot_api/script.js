@@ -16,6 +16,9 @@ updateWeather();
 updateNowPlaying();
 fetchCalendarEvents(); // Call on page load
 
+// Add initial greeting
+appendMessage('bot', 'Hello Kuldeep! What\'s up?'); // Added this line
+
 // Refresh data every 30 seconds
 setInterval(updateWeather, 30000);
 setInterval(updateNowPlaying, 30000);
@@ -54,6 +57,7 @@ async function updateWeather() {
         navigator.geolocation.getCurrentPosition(async (position) => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
+            // Updated URL
             const response = await fetch(`/api/weather/now/?lat=${lat}&lon=${lon}`);
             const data = await response.json();
 
@@ -80,6 +84,7 @@ async function updateWeather() {
 }
 
 async function fetchDefaultWeather() {
+    // Updated URL
     const response = await fetch('/api/weather/now/');
     const data = await response.json();
 
@@ -96,6 +101,7 @@ async function fetchDefaultWeather() {
 }
 
 async function updateNowPlaying() {
+    // Updated URL
     const response = await fetch('/api/spotify/now-playing/');
     if (response.status === 204) {
         spotifyTrackInfo.innerHTML = `<p>Nothing playing on Spotify.</p>`;
@@ -118,6 +124,7 @@ async function updateNowPlaying() {
 
 async function fetchCalendarEvents() {
     try {
+        // Updated URL
         const response = await fetch('/api/google_calendar/events/');
         const data = await response.json();
 
