@@ -9,6 +9,9 @@ from rest_framework import status
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
+# Import the Google Calendar utility function
+from google_calendar_api.utils import get_upcoming_events
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -33,7 +36,7 @@ class ChatbotAPIView(APIView):
         gemini_api_key = os.getenv("GEMINI_API_KEY")
         if not gemini_api_key or gemini_api_key == "YOUR_GEMINI_API_KEY_HERE":
             return Response(
-                {"error": "Server configuration error: Gemini API key is not set."},
+                {"error": "Server configuration error: Gemini API key is not set.",},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
@@ -119,6 +122,18 @@ class ChatbotAPIView(APIView):
 
             sp.start_playback()
             return Response({"response": "Playback resumed."})
+
+        # Check if the user is asking about calendar events
+        elif any(keyword in prompt.lower() for keyword in ["calendar", "events", "meetings", "tasks", "schedule"]):
+            try:
+                events_text = get_upcoming_events()
+                if events_text == "No upcoming events found.":
+                    response_text = "I couldn't find any upcoming events on your calendar."
+                else:
+                    response_text = f"Here are your upcoming events:\n{events_text}"
+                return Response({"response": response_text}, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response({"response": f"I'm sorry, I couldn't fetch your calendar events right now. Error: {e}"}, status=status.HTTP_200_OK)
 
         # Send the prompt to the Gemini API
         try:

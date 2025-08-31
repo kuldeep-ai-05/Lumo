@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'weather_api',
     'chatbot_api',
     'spotify_api',
+    'google_calendar_api',
 ]
 
 MIDDLEWARE = [

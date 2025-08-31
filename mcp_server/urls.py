@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/', include('weather_api.urls')),
     path('', include('chatbot_api.urls')),
     path('api/', include('spotify_api.urls')),
+    path('api/', include('google_calendar_api.urls')),
 ]

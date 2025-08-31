@@ -8,13 +8,18 @@ const weatherInfo = document.getElementById('weather-info');
 const spotifyAlbumArt = document.getElementById('spotify-album-art');
 const spotifyTrackInfo = document.getElementById('spotify-track-info');
 
+// Google Calendar widget
+const calendarEventsDiv = document.getElementById('calendar-events');
+
 // Fetch initial data
 updateWeather();
 updateNowPlaying();
+fetchCalendarEvents(); // Call on page load
 
 // Refresh data every 30 seconds
 setInterval(updateWeather, 30000);
 setInterval(updateNowPlaying, 30000);
+setInterval(fetchCalendarEvents, 60000); // Refresh calendar events every 60 seconds
 
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -111,6 +116,29 @@ async function updateNowPlaying() {
     }
 }
 
+async function fetchCalendarEvents() {
+    try {
+        const response = await fetch('/api/google_calendar/events/');
+        const data = await response.json();
+
+        if (data.error) {
+            calendarEventsDiv.innerHTML = `<p>Error fetching calendar events: ${data.error}</p>`;
+            return;
+        }
+
+        if (data.events) {
+            const eventsHtml = data.events.split('\n').map(event => `<p>${event}</p>`).join('');
+            calendarEventsDiv.innerHTML = eventsHtml;
+        } else {
+            calendarEventsDiv.innerHTML = `<p>No upcoming events found.</p>`;
+        }
+
+    } catch (error) {
+        console.error("Error fetching calendar events:", error);
+        calendarEventsDiv.innerHTML = `<p>Error fetching calendar events.</p>`;
+    }
+}
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -121,7 +149,7 @@ function getCookie(name) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
             }
-        }
+            }
     }
     return cookieValue;
 }

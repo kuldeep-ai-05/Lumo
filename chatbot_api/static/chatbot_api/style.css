@@ -33,7 +33,7 @@ body {
     border-right: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
 }
 
-.weather-widget, .spotify-widget {
+.weather-widget, .spotify-widget, .google-calendar-widget {
     background-color: rgba(40, 40, 40, 0.8); /* Slightly transparent dark background */
     border-radius: 12px; /* More rounded corners */
     padding: 25px; /* More padding */
@@ -41,7 +41,7 @@ body {
     transition: transform 0.3s ease; /* Smooth hover effect */
 }
 
-.weather-widget:hover, .spotify-widget:hover {
+.weather-widget:hover, .spotify-widget:hover, .google-calendar-widget:hover {
     transform: translateY(-5px); /* Lift effect on hover */
 }
 
